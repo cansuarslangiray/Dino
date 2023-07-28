@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private Vector3 _direction;
     [SerializeField] private float gravity = 9.81f * 2f;
     [SerializeField] private float jumpForce = 8f;
+    [SerializeField] private Sprite deathSprite;
+
     private void Awake()
     {
         _character = GetComponent<CharacterController>();
@@ -35,5 +37,15 @@ public class Player : MonoBehaviour
         }
 
         _character.Move(_direction * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            GameManager.IsDead = true;
+            GetComponent<SpriteRenderer>().sprite = deathSprite;
+            GameManager.Instance.GameOver();
+        }
     }
 }
