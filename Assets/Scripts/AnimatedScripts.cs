@@ -9,30 +9,37 @@ public class AnimatedScripts : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private int _frame;
+    private bool _isAnimating;
 
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _isAnimating = true;
     }
 
     private void OnEnable()
     {
+        _isAnimating = true;
+        _frame = 0;
         Invoke(nameof(Animate), 0f);
     }
 
     private void OnDisable()
     {
         CancelInvoke();
+        _isAnimating = false;
     }
 
     private void Animate()
     {
-        if (!GameManager.IsDead)
+        if (_isAnimating)
         {
             _frame++;
 
             if (_frame >= sprites.Length)
             {
+                Debug.Log("hehyy");
+
                 _frame = 0;
             }
 
@@ -41,7 +48,19 @@ public class AnimatedScripts : MonoBehaviour
                 _spriteRenderer.sprite = sprites[_frame];
             }
 
-            Invoke(nameof(Animate), 1f / GameManager.Instance.GameSpeed);
+            if (GameManager.IsDead)
+            {
+                _isAnimating = false;
+            }
+            else
+            {
+                Invoke(nameof(Animate), 1f / GameManager.Instance.GameSpeed);
+            }
         }
+    }
+
+    public void SetIsAnimating(bool animate)
+    {
+        _isAnimating = animate;
     }
 }

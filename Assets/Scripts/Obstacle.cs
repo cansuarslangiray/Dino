@@ -9,7 +9,7 @@ public class Obstacle : MonoBehaviour
 
     private void Start()
     {
-        _leftEdge = Camera.main.ScreenToViewportPoint(Vector3.zero).x - 8f;
+        _leftEdge = Camera.main.ScreenToViewportPoint(Vector3.zero).x - 13f;
     }
 
     private void Update()
